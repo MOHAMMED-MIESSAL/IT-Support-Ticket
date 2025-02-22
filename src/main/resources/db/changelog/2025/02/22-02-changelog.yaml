@@ -1,0 +1,49 @@
+  databaseChangeLog:
+  - changeSet:
+      id: 1740259973920-1
+      author: Youcode
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_ticket
+                  name: id
+                  type: UUID
+              - column:
+                  name: title
+                  type: VARCHAR(255)
+              - column:
+                  name: description
+                  type: VARCHAR(255)
+              - column:
+                  name: priority
+                  type: VARCHAR(255)
+              - column:
+                  name: status
+                  type: VARCHAR(255)
+              - column:
+                  name: category
+                  type: VARCHAR(255)
+              - column:
+                  name: creation_date
+                  type: DATETIME
+              - column:
+                  name: user_id
+                  type: UUID
+            tableName: ticket
+  - changeSet:
+      id: 1740259973920-2
+      author: Youcode
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: ticket
+            constraintName: FK_TICKET_ON_USER
+            referencedColumnNames: id
+            referencedTableName: user
+
