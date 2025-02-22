@@ -41,5 +41,6 @@ public class Ticket {
     private LocalDateTime creationDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) // Prevents infinite recursion
     private User user;
 }
