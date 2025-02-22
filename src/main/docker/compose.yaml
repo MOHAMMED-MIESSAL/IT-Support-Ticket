@@ -1,0 +1,14 @@
+name: IT-support-ticket
+services:
+  postgres:
+    container_name: IT-support-ticket
+    image: 'postgres:latest'
+    environment:
+      - 'POSTGRES_DB=IT-support-ticket'
+      - 'POSTGRES_PASSWORD=my_ticket'
+      - 'POSTGRES_USER=my_ticket'
+    ports:
+      - '5433:5432'
+volumes:
+  postgres_data:
+    driver: local
