@@ -33,6 +33,7 @@ public class TicketImplementation implements TicketService {
 
     @Override
     public Ticket create(Ticket ticket) {
+        ticket.setCreationDate(LocalDateTime.now());
         return ticketRepository.save(ticket);
     }
 
@@ -56,6 +57,7 @@ public class TicketImplementation implements TicketService {
             throw new RuntimeException("Ticket with id : " + id + " not found");
         }
         ticket.setId(id);
+        ticket.setCreationDate(LocalDateTime.now());
         return ticketRepository.save(ticket);
     }
 }
