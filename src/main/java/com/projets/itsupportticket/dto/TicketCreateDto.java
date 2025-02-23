@@ -31,7 +31,7 @@ public class TicketCreateDto {
     @Enumerated(EnumType.STRING)
     private String priority;
 
-    @NotNull(message = "Status must not be null")
+    // @NotNull(message = "Status must not be null")
     @Enumerated(EnumType.STRING)
     private String status;
 

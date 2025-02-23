@@ -12,6 +12,7 @@ import org.mapstruct.Mapping;
 public interface TicketMapper {
 
     @Mapping(source = "userId", target = "user")
+    @Mapping(source = "status", target = "status")
     Ticket toEntity(TicketCreateDto ticketCreateDto);
 
 }

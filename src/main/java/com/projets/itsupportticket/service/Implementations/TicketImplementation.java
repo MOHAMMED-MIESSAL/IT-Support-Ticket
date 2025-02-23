@@ -1,6 +1,7 @@
 package com.projets.itsupportticket.service.Implementations;
 
 import com.projets.itsupportticket.domain.Ticket;
+import com.projets.itsupportticket.enums.Status;
 import com.projets.itsupportticket.exception.CustomValidationException;
 import com.projets.itsupportticket.repository.TicketRepository;
 import com.projets.itsupportticket.service.TicketService;
@@ -33,7 +34,8 @@ public class TicketImplementation implements TicketService {
 
     @Override
     public Ticket create(Ticket ticket) {
-        ticket.setCreationDate(LocalDateTime.now());
+        ticket.setCreationDate(LocalDateTime.now()); // Set the creation date automatically
+        ticket.setStatus(Status.NEW); // Set the status to NEW  by default
         return ticketRepository.save(ticket);
     }
 
