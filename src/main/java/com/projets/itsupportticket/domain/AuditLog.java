@@ -1,6 +1,7 @@
 package com.projets.itsupportticket.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,12 +22,14 @@ public class AuditLog {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "ticket_id", nullable = false)
     private Ticket ticket;
 
     private String actionType;  // "STATUS_UPDATE" ou "COMMENT_ADDED"
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "changed_by", nullable = false)
     private User changedBy;
