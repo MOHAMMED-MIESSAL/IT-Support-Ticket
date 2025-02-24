@@ -17,4 +17,8 @@ public interface UserService {
     Optional<User> findById(UUID id);
 
     void delete(UUID id);
+
+    Optional<User> login(String email, String password);
+
+    Optional<User> getUserByEmail(String email);
 }
