@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -74,4 +75,14 @@ public class TicketImplementation implements TicketService {
         return ticketRepository.save(ticket);
     }
 
+    @Override
+    public Optional<Ticket> findByStatusAndId(Status status, UUID id) {
+        return Optional.ofNullable(ticketRepository.findByStatusAndId(status, id)
+                .orElseThrow(() -> new CustomValidationException("Ticket not found")));
+    }
+
+    @Override
+    public List<Ticket> findByStatus(Status status) {
+        return ticketRepository.findByStatus(status);
+    }
 }

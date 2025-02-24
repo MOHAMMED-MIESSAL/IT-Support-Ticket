@@ -5,6 +5,7 @@ import com.projets.itsupportticket.domain.Ticket;
 import com.projets.itsupportticket.domain.User;
 import com.projets.itsupportticket.dto.TicketCreateDto;
 import com.projets.itsupportticket.dto.UpdateStatusRequest;
+import com.projets.itsupportticket.enums.Status;
 import com.projets.itsupportticket.mapper.TicketMapper;
 import com.projets.itsupportticket.service.TicketService;
 import com.projets.itsupportticket.service.UserService;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -72,5 +74,17 @@ public class TicketController {
         // + The log is added to the database when the status is updated before the status is updated
 
         return ResponseEntity.ok(ticketService.updateStatus(id, updateStatusRequest.getStatus(), user));
+    }
+
+    // Method to get a ticket by status and id
+    @GetMapping("/{id}/status")
+    public ResponseEntity<Optional<Ticket>> findByStatusAndId(@RequestParam Status status, @PathVariable UUID id) {
+        return ResponseEntity.status(200).body(ticketService.findByStatusAndId(status, id));
+    }
+
+    // Method to get a list of tickets by status
+    @GetMapping("/status")
+    public ResponseEntity<List<Ticket>> findByStatus(@RequestParam Status status) {
+        return ResponseEntity.status(200).body(ticketService.findByStatus(status));
     }
 }
