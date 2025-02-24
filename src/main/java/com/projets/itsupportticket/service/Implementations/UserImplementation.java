@@ -1,6 +1,7 @@
 package com.projets.itsupportticket.service.Implementations;
 
 import com.projets.itsupportticket.domain.User;
+import com.projets.itsupportticket.exception.CustomValidationException;
 import com.projets.itsupportticket.repository.UserRepository;
 import com.projets.itsupportticket.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
@@ -57,6 +58,25 @@ public class UserImplementation implements UserService {
             throw new EntityNotFoundException("User with id : " + id + " not found");
         }
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<User> login(String email, String password) {
+        if (password == null) {
+            throw new CustomValidationException("Password must not be null");
+        }
+        if (userRepository.findByEmail(email).isPresent()) {
+            User user = userRepository.findByEmail(email).get();
+            if (passwordEncoder.matches(password, user.getPassword())) {
+                return Optional.of(user);
+            }
+        }
+        throw new CustomValidationException("Invalid credentials");
+    }
+
+    @Override
+    public Optional<User> getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
 }
