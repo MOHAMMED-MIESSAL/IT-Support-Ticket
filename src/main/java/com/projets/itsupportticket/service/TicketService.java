@@ -12,6 +12,7 @@ import java.util.UUID;
 
 public interface TicketService {
     Page<Ticket> findAll(Pageable pageable);
+    Page<Ticket> findByUserId(UUID userId, Pageable pageable);
     Ticket create(Ticket ticket);
     Ticket update(UUID id, Ticket ticket);
     Optional<Ticket> findById(UUID id);

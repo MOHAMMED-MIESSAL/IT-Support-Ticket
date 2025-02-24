@@ -33,6 +33,11 @@ public class TicketImplementation implements TicketService {
     }
 
     @Override
+    public Page<Ticket> findByUserId(UUID userId, Pageable pageable) {
+        return ticketRepository.findByUserId(userId, pageable);
+    }
+
+    @Override
     public Ticket create(Ticket ticket) {
         ticket.setCreationDate(LocalDateTime.now()); // Set the creation date automatically
         ticket.setStatus(Status.NEW); // Set the status to NEW  by default

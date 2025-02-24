@@ -1,8 +1,8 @@
 package com.projets.itsupportticket.service.Implementations;
 
 
-
 import com.projets.itsupportticket.domain.User;
+import com.projets.itsupportticket.exception.CustomValidationException;
 import com.projets.itsupportticket.service.AuthService;
 import com.projets.itsupportticket.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +20,8 @@ public class AuthServiceImplementation implements AuthService {
 
     @Override
     public Optional<User> login(String email, String password) {
-      Optional<User> user = userService.getUserByEmail(email);
-        if (user.isEmpty() || !user.get().getPassword().equals(password)) {
-            return Optional.empty();
-        }
-        return user;
+        return Optional.ofNullable(userService.login(email, password)
+                .orElseThrow(() -> new CustomValidationException("Invalid credentials")));
     }
 
     @Override

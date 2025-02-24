@@ -20,5 +20,5 @@ public interface UserService {
 
     Optional<User> login(String email, String password);
 
-    Optional<User> getUserByEmail(String email);
+    Optional<User> getByEmail(String email);
 }

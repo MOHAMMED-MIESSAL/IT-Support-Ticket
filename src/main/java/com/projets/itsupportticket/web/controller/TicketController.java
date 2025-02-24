@@ -15,6 +15,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,10 +35,30 @@ public class TicketController {
 
 
     @GetMapping
-    public ResponseEntity<Page<Ticket>> findAll(@RequestParam(defaultValue = "0") int page,
-                                                @RequestParam(defaultValue = "10") int size) {
+    public ResponseEntity<Page<Ticket>> findAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        // Get the user ID and role from the token
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userId = authentication.getName();
+        String role = authentication.getAuthorities().stream()
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("No role found"))
+                .getAuthority();
+
+        // Get the tickets based on the role of the user
         Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.status(200).body(ticketService.findAll(pageable));
+        Page<Ticket> tickets;
+        if (role.equals("IT_Support")) {
+            tickets = ticketService.findAll(pageable);
+        } else if (role.equals("Employee")) {
+            tickets = ticketService.findByUserId(UUID.fromString(userId), pageable);
+        } else {
+            throw new AccessDeniedException("Unauthorized");
+        }
+
+        return ResponseEntity.status(200).body(tickets);
     }
 
 
