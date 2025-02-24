@@ -1,0 +1,51 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1740323414626-2
+      author: Youcode
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_comment
+                  name: id
+                  type: UUID
+              - column:
+                  name: ticket_id
+                  type: UUID
+              - column:
+                  name: author_id
+                  type: UUID
+              - column:
+                  name: comment_text
+                  type: VARCHAR(255)
+              - column:
+                  name: created_date
+                  type: DATETIME
+            tableName: comment
+  - changeSet:
+      id: 1740323414626-5
+      author: Youcode
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: author_id
+            baseTableName: comment
+            constraintName: FK_COMMENT_ON_AUTHOR
+            referencedColumnNames: id
+            referencedTableName: user
+  - changeSet:
+      id: 1740323414626-6
+      author: Youcode
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: ticket_id
+            baseTableName: comment
+            constraintName: FK_COMMENT_ON_TICKET
+            referencedColumnNames: id
+            referencedTableName: ticket
+

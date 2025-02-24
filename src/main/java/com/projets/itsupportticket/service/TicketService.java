@@ -1,6 +1,8 @@
 package com.projets.itsupportticket.service;
 
 import com.projets.itsupportticket.domain.Ticket;
+import com.projets.itsupportticket.domain.User;
+import com.projets.itsupportticket.enums.Status;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -13,4 +15,5 @@ public interface TicketService {
     Ticket update(UUID id, Ticket ticket);
     Optional<Ticket> findById(UUID id);
     void delete(UUID id);
+    Ticket updateStatus(UUID id , Status newStatus, User changedBy);
 }

@@ -1,0 +1,61 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1740323481318-1
+      author: Youcode
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_auditlog
+                  name: id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: ticket_id
+                  type: UUID
+              - column:
+                  name: action_type
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: changed_by
+                  type: UUID
+              - column:
+                  name: old_value
+                  type: VARCHAR(255)
+              - column:
+                  name: new_value
+                  type: VARCHAR(255)
+              - column:
+                  name: change_date
+                  type: DATETIME
+            tableName: audit_log
+  - changeSet:
+      id: 1740323481318-3
+      author: Youcode
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: changed_by
+            baseTableName: audit_log
+            constraintName: FK_AUDITLOG_ON_CHANGED_BY
+            referencedColumnNames: id
+            referencedTableName: user
+  - changeSet:
+      id: 1740323481318-4
+      author: Youcode
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: ticket_id
+            baseTableName: audit_log
+            constraintName: FK_AUDITLOG_ON_TICKET
+            referencedColumnNames: id
+            referencedTableName: ticket
+

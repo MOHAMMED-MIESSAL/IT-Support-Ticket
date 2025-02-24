@@ -2,9 +2,12 @@ package com.projets.itsupportticket.web.controller;
 
 
 import com.projets.itsupportticket.domain.Ticket;
+import com.projets.itsupportticket.domain.User;
 import com.projets.itsupportticket.dto.TicketCreateDto;
+import com.projets.itsupportticket.dto.UpdateStatusRequest;
 import com.projets.itsupportticket.mapper.TicketMapper;
 import com.projets.itsupportticket.service.TicketService;
+import com.projets.itsupportticket.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,6 +26,7 @@ public class TicketController {
 
     private final TicketService ticketService;
     private final TicketMapper ticketMapper;
+    private final UserService userService;
 
 
     @GetMapping
@@ -54,5 +58,19 @@ public class TicketController {
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Ticket>> findById(@PathVariable UUID id) {
         return ResponseEntity.status(200).body(ticketService.findById(id));
+    }
+
+    // Method to update the status of a ticket to add log to database
+    @PatchMapping("/status/{id}")
+    public ResponseEntity<Ticket> updateTicketStatus(
+            @PathVariable UUID id,
+            @RequestBody UpdateStatusRequest updateStatusRequest) {
+
+        User user = userService.findById(updateStatusRequest.getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // + The log is added to the database when the status is updated before the status is updated
+
+        return ResponseEntity.ok(ticketService.updateStatus(id, updateStatusRequest.getStatus(), user));
     }
 }
